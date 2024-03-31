@@ -1,29 +1,31 @@
+package me.mjholub.whitetail
 
-class ServiceInfo extends ServiceResponse {
-  struct StaticServiceResponse {
-  val serviceName: String
-  val proxyFor: String
-  val metadata: Option[Map[String, String]]
-  val cap: Option[Int]
-  }
-  struct DynamicServiceResponse {
-    // similar to load average, but denoting number of connections
-    // within the last 5, 15, and 60 minutes
-    var load: List[Int]
-  }
 
-  def getAvailableServices(): Map[StaticServiceResponse, DynamicServiceResponse] = {
-    // for now, we'll just read that from a json file, but
-    // in the future, hopefully the encapsulated services
-    // will have a dedicated API for this
-    val source = Source.fromFile("services.json")
+// ServiceLoad represents the current number of connections to a service 
+// and an average for past 5, 10, 30 minutes.
+object WrappedServices {
 
-    val services = source.getLines().mkString
-    source.close()
+case class ServiceLoad(
+  connections: Int,
+  avg_5m: Double,
+  avg_10m: Double,
+  avg_30m: Double
+)
 
-    val json = Json.parse(services)
-    val serviceList = (json \ "services").as[List[ServiceResponse]]
+case class ServiceInfo(
+  name: String,
+  load: ServiceLoad,
+  additional_metadata: Map[String, Unit]
+)
 
-    serviceList
-  }
+private case class ServiceConfig(
+  port: Int,
+  // must be local
+  host: Option[String]
+)
+
+def getProvidedServices(): Option[List[ServiceInfo]] = {
+  // TODO: read services as specified
+  None
+}
 }

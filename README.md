@@ -40,6 +40,6 @@ As an example, let's assume Alice operates an Invidious instance. Bob then makes
 his machine to `https://localhost:4501/watch?v=dQw4w9WgXcQ`, where 4501 is an outgoing port
 for requesting resources from Invidious. Whitetail will then poll it's database for
 nodes where an Invidious instance is running. It finds Alice's node, which has an ULID
-`01HT8PVA2BZ2D0JZ1Z2MD8NJ2Z01HT8PVA2BZ2D0JZ1Z2MD8NJ2Z`. If Alice's node has the best ratio of load to latency relative to Bob, Whitetail will select it as the provider of the resource at `watch?v=dQw4w9WgXcQ`. But before sending a response to Bob, it will also check if the content at Alice's nodeis the same as at two randomly selected other nodes. This will not be done for every request in 
+`01HT8PVA2BZ2D0JZ1Z2MD8NJ2Z01HT8PVA2BZ2D0JZ1Z2MD8NJ2Z`. If Alice's node has the best ratio of load to latency relative to Bob, Whitetail will select it as the provider of the resource at `watch?v=dQw4w9WgXcQ`. But before sending a response to Bob, it will also check if the content at Alice's node is the same as at two randomly selected other nodes. This will not be done for every request in 
 order to not degrade the performance, but will be done more often if Alice is a new peer in the 
 network.
