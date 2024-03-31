@@ -21,8 +21,8 @@ blockage by their respective targets.
 ## How it works
 
 By offloading the resource transmission across multiple nodes, we are able to make it much harder
-to make privacy-friendly proxies more resistant to rate limiting, improve their performance and 
-by obfuscating the incoming connections, trust and protection against abuse by malicious actors.
+to rate limit privacy-friendly proxies, while improving their performance and 
+by obfuscating the incoming connections, also strenthen the trust and protection against abuse by malicious actors.
 
 On the data provider side, we also implement protections against tampering by creating a trust
 score system and selectively verifying that parts of the sent data are identical for the same
