@@ -22,7 +22,7 @@ class ConnectionHandler(endpoint: InetSocketAddress, internalPeerId: ULID) exten
   // resuorce requests coordinator
   val coordinator = context.parent 
 
-  override def receive: Receive = {
+override def receive: Receive = {
     case Bound(localAddress) =>
       println(s"Bound to $localAddress")
     case CommandFailed(_: Bind) =>
@@ -34,6 +34,22 @@ class ConnectionHandler(endpoint: InetSocketAddress, internalPeerId: ULID) exten
       val peer = SimplePeer(generator.generate())
       coordinator ! CreatePeerConnection(peer)
       connection ! Register(self)
+    case request: Request =>
+      // Use ServiceInfo to select the best service provider
+      val bestProvider = serviceInfo.selectPrefferedRemoteServiceProvider()
+      bestProvider match {
+        case Some(provider) =>
+          // Forward the request to the selected provider
+          // Implement content verification before sending the response
+          val verified = serviceInfo.verifyContentConsistency(request.resource)
+          if (verified) {
+            sender() ! Response(200, provider.content)
+          } else {
+            throw new Exception("Content verification failed")
+          }
+        case None =>
+          throw new Exception("No service provider available")
+      }
   } 
 }
 
